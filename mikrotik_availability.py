@@ -17,7 +17,19 @@ print(len(mSKU))
 print(mSKU)
 
 column_order=['SKU', 'November', 'December', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October']
-edf = pd.DataFrame(columns=column_order)
+# edf = pd.DataFrame(columns=column_order)
+# for DF in SKUdf:
+#     for row in DF[1].iterrows():
+#         sk = row[1][0]
+#         if row[1][4] == "In stock":
+#             month_name = datetime.now().strftime('%B')
+#             AB = row[1][3]
+#         else:
+#             month_name = datetime.strptime(row[1][4], "%Y-%m-%d").strftime("%B")
+#             AB = row[1][3]
+#         DTA = {'SKU': sk, month_name: AB}
+#         edf=edf.append(DTA, ignore_index=True).fillna(0)
+data_list = []
 for DF in SKUdf:
     for row in DF[1].iterrows():
         sk = row[1][0]
@@ -28,7 +40,9 @@ for DF in SKUdf:
             month_name = datetime.strptime(row[1][4], "%Y-%m-%d").strftime("%B")
             AB = row[1][3]
         DTA = {'SKU': sk, month_name: AB}
-        edf=edf.append(DTA, ignore_index=True).fillna(0)
+        data_list.append(DTA)
+
+edf = pd.DataFrame(data_list).fillna(0)
 
 summed_df = edf.groupby('SKU').sum().reset_index()
 
