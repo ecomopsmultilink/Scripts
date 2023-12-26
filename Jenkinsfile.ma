@@ -1,13 +1,21 @@
 pipeline {
     agent any
     parameters {
-        file(name: 'export.csv', description: 'Upload export.csv file')
+        file(name: 'FILE_TO_DOWNLOAD', description: 'Upload export.csv file')
     }
     stages {
         stage('checkout code') {
             steps{
-                
+                deleteDir()
                 checkout scm
+            }
+        }
+        stage('Download File') {
+            steps {
+                script {
+                    def downloadedFilePath = params.FILE_TO_DOWNLOAD
+                    sh "cp ${downloadedFilePath} ./export.csv"
+                }
             }
         }
         stage('MikroTik') {
