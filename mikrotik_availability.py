@@ -42,7 +42,7 @@ for DF in SKUdf:
         DTA = {'SKU': sk, month_name: AB}
         data_list.append(DTA)
 
-edf = pd.DataFrame(data_list)
+edf = pd.DataFrame(data_list, columns=column_order).fillna(0)
 
 summed_df = edf.groupby('SKU').sum().reset_index()
 
